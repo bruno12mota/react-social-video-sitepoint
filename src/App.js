@@ -4,27 +4,27 @@ import SocialVideo from './social-video';
 
 var videos = [
   {
-    provider: 'youtube',
+    service: 'youtube',
     video: 'https://www.youtube.com/watch?v=XxVg_s8xAms'
   },
   {
-    provider: 'youtube',
+    service: 'youtube',
     video: 'XuZLtMrCOoU'
   },
   {
-    provider: 'vimeo',
+    service: 'vimeo',
     video: 'https://vimeo.com/151715092'
   },
   {
-    provider: 'vimeo',
+    service: 'vimeo',
     video: '148177148'
   },
   {
-    provider: 'dailymotion',
+    service: 'dailymotion',
     video: 'http://www.dailymotion.com/video/x3oc771_la-voiture-du-futur_tech'
   },
   {
-    provider: 'dailymotion',
+    service: 'dailymotion',
     video: 'x3p6f0f_long-story-short-teaser-saison-2_tech'
   }
 ];
@@ -33,47 +33,33 @@ export default class App extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      video: 0
+      videoIndex: 0
     };
   }
 
-  previousVideo (event) {
-    event.preventDefault();
-    if (this.state.video === 0) {
-      this.setState({
-        video: videos.length - 1
-      });
-    } else {
-      this.setState({
-        video: this.state.video - 1
-      });
+  goToVideo (index) {
+    let videoIndex = index;
+    if (videoIndex < 0) {
+      videoIndex = videos.length - 1;
+    } else if (videoIndex >= videos.length) {
+      videoIndex = 0;
     }
-  }
-
-  nextVideo (event) {
-    event.preventDefault();
-    if (this.state.video === videos.length - 1) {
-      this.setState({
-        video: 0
-      });
-    } else {
-      this.setState({
-        video: this.state.video + 1
-      });
-    }
+    this.setState({
+      videoIndex
+    });
   }
 
   render() {
-    const {provider, video} = videos[this.state.video];
+    const {service, video} = videos[this.state.videoIndex];
     return (
       <div>
-        <SocialVideo provider={provider} video={video} width={500} height={270} />
+        <SocialVideo service={service} video={video} width={500} height={270} />
         <p>
-          <span>{provider}: </span>
+          <span>{service}: </span>
           <span>{video}</span>
         </p>
-        <a href='#' onClick={this.previousVideo.bind(this)}>Previous</a>
-        <a href='#' onClick={this.nextVideo.bind(this)}>Next</a>
+        <button onClick={this.goToVideo.bind(this, this.state.videoIndex - 1)}>Previous</button>
+        <button onClick={this.goToVideo.bind(this, this.state.videoIndex + 1)}>Next</button>
       </div>
     );
   }
