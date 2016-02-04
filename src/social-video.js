@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 
 export default class SocialVideo extends Component {
   static propTypes = {
-    service: PropTypes.string.isRequired,
+    service: PropTypes.oneOf(['youtube', 'vimeo', 'dailymotion']).isRequired,
     video: PropTypes.string.isRequired
   };
 
